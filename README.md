@@ -1,54 +1,71 @@
-# Python Screening Task 3: Evaluating Open Source Models for Student Competence Analysis
 
-This repository contains the submission for the Python Screening Task focused on proposing a research plan for evaluating open-source AI models for student competence analysis.
+### My Plan for Evaluating AI Models for Student Code Analysis
 
-## Setup Instructions
-
-This submission is composed of a research plan and detailed reasoning, both contained within this `README.md` file. No special setup or installation is required to view the content.
+Here's my game plan for figuring out which open-source AI models are best suited for analyzing student competence in programming. This is just a research plan, so you don't need to install or set up anything to read it.
 
 ---
 
-## Research Plan
+## The Research Plan
 
-My approach to evaluating open-source models for student competence analysis begins with establishing clear criteria: **code comprehension** (ability to parse syntax, logic, and intent), **pedagogical value of generated prompts** (capacity to foster critical thinking without revealing solutions), and **technical feasibility** (model size, inference speed, and ease of fine-tuning). The initial search will focus on models hosted on platforms like Hugging Face, prioritizing those with strong foundations in code, such as Meta's **`CodeLlama`** or Google's **`Gemma`**, as well as generalist models known for strong reasoning like **`Mistral-7B`**. I will select one primary candidate, likely `CodeLlama`, due to its specialized training on code, which is highly relevant to this use case.
+My approach boils down to a few key steps. First, I'll define what a "good" model looks like for this task. I'm focusing on three main things:
 
-Validation will be conducted by creating a small, curated dataset of Python code snippets from beginner students, categorized by common misconceptions (e.g., mutable default arguments, variable scope confusion, incorrect loop logic). I will then use this dataset to perform a qualitative benchmark on the chosen model. The test will involve prompting the model with the student's code and a meta-prompt such as, *"This Python code is incorrect. Identify the student's conceptual misunderstanding and ask them a single, guiding question to help them find the error themselves."* The generated prompts will be evaluated against a rubric measuring their clarity, relevance, and effectiveness in stimulating self-correction, which will determine the model's out-of-the-box suitability and inform the potential need for fine-tuning.
+1.  **Code Comprehension:** Can it actually understand the logic and *intent* behind a student's code, not just the syntax?
+2.  **Pedagogical Value:** Can it generate helpful hints that guide a student toward the answer without just giving it away?
+3.  **Technical Feasibility:** Is the model a reasonable size? Is it fast enough? How hard is it to fine-tune?
+
+I'll start by scouting for promising models on platforms like Hugging Face. My main targets will be models that are already great at code, like Meta's **CodeLlama** or Google's **Gemma**, and strong general-purpose models like **Mistral-7B**. I plan to pick one to start with, and **CodeLlama** seems like the most logical choice since it was specifically trained on code.
+
+To test it, I'll put together a small, hand-picked dataset of Python snippets from beginners. These snippets will feature common early-stage mistakes, like issues with mutable default arguments, variable scope confusion, or broken loop logic.
+
+Then, I'll run the test. I'll feed the model a student's incorrect code with a prompt like: *"This Python code is wrong. Figure out the student's conceptual misunderstanding and ask them one single, guiding question to help them fix it themselves."*
+
+I'll evaluate the model's response based on the quality of the question it generates—is it clear, relevant, and does it actually make the student think? This initial benchmark will tell me how good the model is out-of-the-box and what kind of fine-tuning might be needed.
 
 ---
 
-## Reasoning
+## Reasoning Behind My Approach
 
-#### 1. What makes a model suitable for high-level competence analysis?
+#### What makes a model truly suitable for analyzing a student's competence?
 
-A model is suitable for high-level competence analysis if it moves beyond simple syntax checking to achieve **semantic and conceptual understanding**. This means the model must:
-* **Infer Intent:** It should be able to understand what the student was *trying* to accomplish, not just what the code *does*. This is key to identifying logical flaws versus simple typos.
-* **Model Misconceptions:** It needs to recognize common patterns of error that point to a deeper misunderstanding of a core concept (e.g., confusing class variables with instance variables).
-* **Generate Socratic Prompts:** Instead of providing a direct correction, the model must be capable of generating open-ended, guiding questions that encourage the student to re-evaluate their own logic. This requires strong instruction-following and nuanced language generation abilities.
+For this kind of high-level analysis, a model needs to go way beyond just catching syntax errors. It has to understand the student's **intent**—what they were *trying* to do, not just what the code literally does. This is how you spot a logic flaw versus a simple typo.
 
-#### 2. How would you test whether a model generates meaningful prompts?
+A great model can also recognize **patterns of misunderstanding**. For example, it should be able to see that a student consistently confusing class variables with instance variables points to a specific conceptual gap.
 
-I would test the meaningfulness of generated prompts through a multi-faceted evaluation:
-* **Expert Review:** A panel of experienced Python educators would score the prompts based on a pedagogical rubric. Criteria would include: Does the prompt accurately target the misconception? Does it encourage critical thinking? Is the language clear and encouraging?
-* **Comparative Analysis:** I would compare the model-generated prompts against "gold standard" prompts written by human instructors for the same code snippets.
-* **Student Interaction Testing:** In a controlled setting, I would present the AI-generated feedback to a small group of students to measure its practical effectiveness. Qualitative feedback would be gathered on whether the prompts were helpful, confusing, or frustrating, providing direct insight into their real-world value.
+Most importantly, it has to be able to generate **Socratic prompts**. Instead of just spitting out the correct code, it needs to ask open-ended, guiding questions that force the student to rethink their own approach. This requires a sophisticated ability to follow instructions and generate nuanced language.
 
-#### 3. What trade-offs might exist between accuracy, interpretability, and cost?
+---
 
-Significant trade-offs exist between these three factors:
-* **Accuracy vs. Cost:** Larger, more powerful models (e.g., 70B parameter models) generally provide more accurate and nuanced analysis but come with high computational costs (requiring expensive GPUs and more energy). Smaller models are cheaper to run but may oversimplify problems or make more frequent errors.
-* **Accuracy vs. Interpretability:** The most accurate models are often complex "black boxes," making it difficult to understand *why* they generated a specific prompt. For an educational tool, this is a major drawback, as educators may need to trust and understand the AI's reasoning. A simpler, more interpretable model might be preferred even if it's slightly less accurate.
+#### How would you actually test if a model's prompts are meaningful?
 
-#### 4. Why did you choose the model you evaluated, and what are its strengths or limitations?
+I'd use a three-pronged approach to see if the generated prompts are any good:
 
-For this plan, I chose **`CodeLlama`** as the primary model for evaluation.
+1.  **Expert Review:** I'd get a few experienced Python instructors to score the AI's questions using a simple rubric. We'd look at whether the prompt targets the right misconception, encourages critical thinking, and has a clear and encouraging tone.
+2.  **Comparative Analysis:** I'd compare the AI-generated prompts to a set of "gold standard" prompts that we, as human instructors, would write for the same broken code snippets.
+3.  **Student Testing:** The ultimate test is to see how real students react. I'd run a small, controlled study where students receive the AI-generated feedback. Their feedback on whether the prompts were helpful, confusing, or frustrating would give us the best insight into their real-world value.
 
-* **Reasoning for Choice:** `CodeLlama` is built upon Llama 2 and specifically pre-trained on a vast corpus of code. This domain-specific training makes it an exceptionally strong candidate for a task centered on analyzing student-written Python code. It is also open source and available in various sizes, allowing for scalability.
+---
 
-* **Strengths:**
-    * **Code-Specific Knowledge:** It has a built-in, deep understanding of programming syntax, idioms, and common patterns across multiple languages, including Python.
-    * **Instruction-Tuned Variants:** The `CodeLlama-Instruct` models are fine-tuned to follow user commands, which is crucial for the task of generating very specific types of guiding questions.
-    * **Accessibility:** The smaller 7B parameter version can be run on consumer-grade hardware, making it highly accessible for research, prototyping, and even deployment in resource-constrained environments.
+#### What are the trade-offs between accuracy, interpretability, and cost?
 
-* **Limitations:**
-    * **Lack of Pedagogical Context:** `CodeLlama` understands code, but it doesn't inherently understand *how students learn*. Without specific fine-tuning on educational dialogues, its prompts might be technically correct but pedagogically ineffective or even confusing.
-    * **Risk of "Over-Helping":** The model might default to providing solutions or overly explicit hints rather than genuinely Socratic questions, defeating the purpose of fostering deeper learning. This requires careful and sophisticated prompt engineering to mitigate.
+There are definitely major trade-offs here, and it's a balancing act.
+
+* **Accuracy vs. Cost:** The biggest, most powerful models (like those with 70B+ parameters) are usually more accurate and can provide much more nuanced feedback. However, they are incredibly expensive to run, requiring high-end GPUs. A smaller model is way cheaper but might miss the point or oversimplify the student's error.
+* **Accuracy vs. Interpretability:** Often, the most accurate models are "black boxes." It's almost impossible to know *why* they generated a specific prompt. In an educational tool, that's a problem. Teachers need to trust and understand the AI's reasoning. Sometimes, a simpler, more interpretable model is a better choice, even if it's a little less accurate.
+
+---
+
+#### Why did you choose CodeLlama, and what are its pros and cons?
+
+I've singled out **CodeLlama** as the primary model to evaluate for this plan.
+
+**Why I chose it:**
+CodeLlama is built on Llama 2 but was specifically pre-trained on a massive amount of source code. For a task that's all about understanding student code, starting with a model that lives and breathes code is a no-brainer. It's also open source and comes in different sizes, which is great for scaling.
+
+**Strengths:**
+* **Deep Code Knowledge:** It has a built-in understanding of Python syntax, common patterns, and idioms.
+* **Instruction-Tuned:** The "Instruct" versions of CodeLlama are fine-tuned to follow commands, which is exactly what we need for generating very specific types of guiding questions.
+* **Accessible:** The smaller 7B version can run on consumer-grade hardware, making it easy to experiment with and prototype without breaking the bank.
+
+**Limitations:**
+* **It's Not a Teacher:** CodeLlama understands code, but it doesn't understand pedagogy. Without being fine-tuned on educational data, its prompts might be technically correct but completely ineffective (or even confusing) from a teaching perspective.
+* **Risk of "Over-Helping":** The model's natural tendency might be to just fix the code or give a very strong hint. It will take clever and careful prompt engineering to prevent it from revealing the solution instead of guiding the student to it.
